@@ -37,7 +37,7 @@ const addUser = document.getElementById('addUser');
 const updateUser = document.getElementById('updateUser'); 
 
 const userIdControl = document.getElementById('userId'); 
-
+const spinner = document.getElementById('spinner');
 
 let UserArr =[] ;
 
@@ -120,7 +120,7 @@ function onSubmit(eve){
         userId:userIdControl.value 
       }  
       UserArr.push(userObj);  
-
+       spinner.classList.remove('d-none')
    let xhr = new XMLHttpRequest() // to create Instance of Xhr
        xhr.open('POST', user_url); 
        xhr.send(JSON.stringify(userObj));
@@ -136,12 +136,15 @@ function onSubmit(eve){
                                     <td>${userObj.name}</td>
                                     <td>${userObj.phone}</td>
                                     <td>${userObj.email}</td>
-                                    <td><i class="fa-solid fa-pen-to-square text-primary fa-2x"></i></td>
-                                    <td><i class="fa-solid fa-trash text-danger fa-2x"></i></td>
+                                    <td><i onclick="onEdit(this)" class="fa-solid fa-pen-to-square text-primary fa-2x"></i></td>
+                                    <td><i  onclick="onRemove(this)" class="fa-solid fa-trash text-danger fa-2x"></i></td>
                                  `
                  userContainer.prepend(tr);
-
+            spinner.classList.add('d-none')
+            
          }else{ 
+            spinner.classList.add('d-none')
+             
               snackbar('failed to show', "error")
          }
        }
@@ -184,7 +187,8 @@ function onEdit(ele){
          localStorage.setItem('EditId', editId);
        
       let editUrl = `${base_url}/users/${editId}`;
-      
+       spinner.classList.remove('d-none')
+        
       let xhr =new XMLHttpRequest() ;
        xhr.open('GET', editUrl);
        xhr.setRequestHeader('content-type', 'application/json');
@@ -203,9 +207,12 @@ function onEdit(ele){
   
                  addUser.classList.add("d-none");
                  updateUser.classList.remove('d-none');
-
+                spinner.classList.add('d-none')
+                 
             }else{
-                  snackbar('failed to edit User', 'error');
+                spinner.classList.add('d-none')
+                
+               snackbar('failed to edit User', 'error');
 
             }
        }
@@ -222,6 +229,7 @@ function onUpdate(){
          email:emailControl.value,
          userId:userIdControl.value 
       }
+       spinner.classList.remove('d-none')
  
   let xhr= new XMLHttpRequest(); 
       xhr.open('PATCH', updateUrl); 
@@ -237,7 +245,12 @@ function onUpdate(){
             addUser.classList.remove("d-none");
             updateUser.classList.add('d-none');
             userForm.reset();
+            spinner.classList.add('d-none')
+            snackbar('User updated successfully!!', 'success')
+            
           }else{ 
+          spinner.classList.add('d-none')
+
              snackbar('User update failed...!!', 'error')
           }
      }  
