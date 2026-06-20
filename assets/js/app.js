@@ -208,7 +208,7 @@ function onEdit(ele){
                  addUser.classList.add("d-none");
                  updateUser.classList.remove('d-none');
                 spinner.classList.add('d-none')
-                 
+              window.scrollTo({top:0,behavior:'smooth'});  
             }else{
                 spinner.classList.add('d-none')
                 
@@ -246,8 +246,10 @@ function onUpdate(){
             updateUser.classList.add('d-none');
             userForm.reset();
             spinner.classList.add('d-none')
+              tr.scrollIntoView({block:"center",behavior:'smooth'});  
+             
             snackbar('User updated successfully!!', 'success')
-            
+              
           }else{ 
           spinner.classList.add('d-none')
 
